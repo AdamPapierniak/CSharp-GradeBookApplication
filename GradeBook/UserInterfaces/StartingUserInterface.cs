@@ -42,19 +42,25 @@ namespace GradeBook.UserInterfaces
                 return;
             }
 
-            var name = parts[1];
-            var type = parts[2];
+            string name = parts[1];
+            string type = parts[2];
             GradeBookType enumType;
 
             if (Enum.GetNames(typeof(GradeBookType)).Contains(type))
             {
                 if (Enum.TryParse(type, out enumType))
                 {
-                    BaseGradeBook gradeBook = new BaseGradeBook(name)
+                    if (enumType == GradeBookType.Ranked)
                     {
-                        Type = enumType
-                    };
-                    GradeBookUserInterface.CommandLoop(gradeBook);
+                        RankedGradeBook gradeBook = new RankedGradeBook(name);
+                        GradeBookUserInterface.CommandLoop(gradeBook);
+                    } 
+                    else if (enumType == GradeBookType.Standard) 
+                    {
+                        StandardGradeBook gradeBook = new StandardGradeBook(name);
+                        GradeBookUserInterface.CommandLoop(gradeBook);
+                    }
+                    
                 }
             }
             else
